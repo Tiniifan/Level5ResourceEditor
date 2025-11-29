@@ -311,6 +311,8 @@ namespace Level5ResourceEditor.ViewModels.Editor
             {
                 Elements.Clear();
 
+                SelectedElement = null;
+
                 var selectedItem = GetSelectedItem();
                 if (selectedItem == null) return;
 
@@ -331,6 +333,11 @@ namespace Level5ResourceEditor.ViewModels.Editor
                     foreach (var element in elementsToShow)
                     {
                         Elements.Add(element);
+                    }
+
+                    if (Elements.Count > 0)
+                    {
+                        SelectedElement = Elements[0];
                     }
                 }
             }
