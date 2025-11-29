@@ -1,13 +1,15 @@
 
 .vs/
-Level5RessourceEditor/obj/
-Level5RessourceEditor/bin/Debug/*.bin
-Level5RessourceEditor/bin/Debug/*.zip
-Level5RessourceEditor/bin/Debug/*.rar
-Level5RessourceEditor/bin/Debug/*.xml
-Level5RessourceEditor/bin/Debug/*.txt
-Level5RessourceEditor/bin/Release/*.bin
-Level5RessourceEditor/bin/Release/*.zip
-Level5RessourceEditor/bin/Release/*.rar
-Level5RessourceEditor/bin/Release/*.xml
-Level5RessourceEditor/bin/Release/*.txt
+Level5ResourceEditor/obj/
+Level5ResourceEditor/bin/Debug/*.bin
+Level5ResourceEditor/bin/Debug/*.zip
+Level5ResourceEditor/bin/Debug/*.rar
+Level5ResourceEditor/bin/Debug/*.xml
+Level5ResourceEditor/bin/Debug/*.txt
+Level5ResourceEditor/bin/Release/*.bin
+Level5ResourceEditor/bin/Release/*.zip
+Level5ResourceEditor/bin/Release/*.rar
+Level5ResourceEditor/bin/Release/*.xml
+Level5ResourceEditor/bin/Release/*.txt
+
+packages/

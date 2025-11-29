@@ -7,11 +7,11 @@ using System.Windows;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("Level5RessourceEditor")]
+[assembly: AssemblyTitle("Level5ResourceEditor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Level5RessourceEditor")]
+[assembly: AssemblyProduct("Level5ResourceEditor")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
