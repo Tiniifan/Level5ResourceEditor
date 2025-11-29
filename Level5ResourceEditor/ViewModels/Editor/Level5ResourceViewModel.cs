@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ImaginationGUI.ViewModels;
@@ -15,30 +17,111 @@ namespace Level5ResourceEditor.ViewModels.Editor
 {
     public class Level5ResourceViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        private ObservableCollection<TypeListViewItem> _typeListViewItems;
-        private TypeListViewItem _selectedTypeListViewItem;
+        // Scene3D Material Items
+        private ObservableCollection<TypeListViewItem> _scene3DMaterialItems;
+        private TypeListViewItem _selectedScene3DMaterialItem;
+
+        // Scene3D Node Items
+        private ObservableCollection<TypeListViewItem> _scene3DNodeItems;
+        private TypeListViewItem _selectedScene3DNodeItem;
+
+        // Scene2D Material Items
+        private ObservableCollection<TypeListViewItem> _scene2DMaterialItems;
+        private TypeListViewItem _selectedScene2DMaterialItem;
+
+        // Scene2D Node Items
+        private ObservableCollection<TypeListViewItem> _scene2DNodeItems;
+        private TypeListViewItem _selectedScene2DNodeItem;
+
         private ObservableCollection<RESElement> _elements;
         private RESElement _selectedElement;
-        private object _resource;
+        private Dictionary<RESType, List<RESElement>> _items;
         private bool _isXRES;
 
-        public ObservableCollection<TypeListViewItem> TypeListViewItems
+        public ObservableCollection<TypeListViewItem> Scene3DMaterialItems
         {
-            get => _typeListViewItems;
+            get => _scene3DMaterialItems;
             set
             {
-                _typeListViewItems = value;
-                OnPropertyChanged(nameof(TypeListViewItems));
+                _scene3DMaterialItems = value;
+                OnPropertyChanged(nameof(Scene3DMaterialItems));
             }
         }
 
-        public TypeListViewItem SelectedTypeListViewItem
+        public TypeListViewItem SelectedScene3DMaterialItem
         {
-            get => _selectedTypeListViewItem;
+            get => _selectedScene3DMaterialItem;
             set
             {
-                _selectedTypeListViewItem = value;
-                OnPropertyChanged(nameof(SelectedTypeListViewItem));
+                _selectedScene3DMaterialItem = value;
+                OnPropertyChanged(nameof(SelectedScene3DMaterialItem));
+                ClearOtherSelections("Scene3DMaterial");
+                UpdateElementsList();
+            }
+        }
+
+        public ObservableCollection<TypeListViewItem> Scene3DNodeItems
+        {
+            get => _scene3DNodeItems;
+            set
+            {
+                _scene3DNodeItems = value;
+                OnPropertyChanged(nameof(Scene3DNodeItems));
+            }
+        }
+
+        public TypeListViewItem SelectedScene3DNodeItem
+        {
+            get => _selectedScene3DNodeItem;
+            set
+            {
+                _selectedScene3DNodeItem = value;
+                OnPropertyChanged(nameof(SelectedScene3DNodeItem));
+                ClearOtherSelections("Scene3DNode");
+                UpdateElementsList();
+            }
+        }
+
+        public ObservableCollection<TypeListViewItem> Scene2DMaterialItems
+        {
+            get => _scene2DMaterialItems;
+            set
+            {
+                _scene2DMaterialItems = value;
+                OnPropertyChanged(nameof(Scene2DMaterialItems));
+            }
+        }
+
+        public TypeListViewItem SelectedScene2DMaterialItem
+        {
+            get => _selectedScene2DMaterialItem;
+            set
+            {
+                _selectedScene2DMaterialItem = value;
+                OnPropertyChanged(nameof(SelectedScene2DMaterialItem));
+                ClearOtherSelections("Scene2DMaterial");
+                UpdateElementsList();
+            }
+        }
+
+        public ObservableCollection<TypeListViewItem> Scene2DNodeItems
+        {
+            get => _scene2DNodeItems;
+            set
+            {
+                _scene2DNodeItems = value;
+                OnPropertyChanged(nameof(Scene2DNodeItems));
+            }
+        }
+
+        public TypeListViewItem SelectedScene2DNodeItem
+        {
+            get => _selectedScene2DNodeItem;
+            set
+            {
+                _selectedScene2DNodeItem = value;
+                OnPropertyChanged(nameof(SelectedScene2DNodeItem));
+                ClearOtherSelections("Scene2DNode");
                 UpdateElementsList();
             }
         }
@@ -68,10 +151,13 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
         public Level5ResourceViewModel()
         {
-            TypeListViewItems = new ObservableCollection<TypeListViewItem>();
+            Scene3DMaterialItems = new ObservableCollection<TypeListViewItem>();
+            Scene3DNodeItems = new ObservableCollection<TypeListViewItem>();
+            Scene2DMaterialItems = new ObservableCollection<TypeListViewItem>();
+            Scene2DNodeItems = new ObservableCollection<TypeListViewItem>();
             Elements = new ObservableCollection<RESElement>();
 
-            AddElementCommand = new RelayCommand(AddElement, _ => SelectedTypeListViewItem != null);
+            AddElementCommand = new RelayCommand(AddElement, _ => GetSelectedItem() != null);
             DeleteElementCommand = new RelayCommand(DeleteElement, _ => SelectedElement != null);
 
             InitializeEmptyResource();
@@ -79,16 +165,72 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
         private void InitializeEmptyResource()
         {
-            _resource = new RES();
+            _items = new Dictionary<RESType, List<RESElement>>();
             _isXRES = false;
 
-            var res = _resource as RES;
-            if (res != null)
+            InitializeScene3DTypes();
+        }
+
+        private void InitializeScene3DTypes()
+        {
+            // Scene3D Material Types
+            var scene3DMaterialTypes = new[]
             {
-                res.Items = new System.Collections.Generic.Dictionary<RESType, System.Collections.Generic.List<RESElement>>();
+                RESType.Material1,
+                RESType.Material2,
+                RESType.TextureData,
+                RESType.MaterialData
+            };
+
+            Scene3DMaterialItems.Clear();
+            foreach (var type in scene3DMaterialTypes)
+            {
+                if (!_items.ContainsKey(type))
+                {
+                    _items[type] = new List<RESElement>();
+                }
+
+                Scene3DMaterialItems.Add(new TypeListViewItem
+                {
+                    DisplayName = type.ToString(),
+                    Type = type,
+                    ElementCount = _items[type].Count
+                });
             }
 
-            RefreshTypeList();
+            // Scene3D Node Types
+            var scene3DNodeTypes = new[]
+            {
+                RESType.MeshName,
+                RESType.Bone,
+                RESType.AnimationMTN2,
+                RESType.AnimationMTN3,
+                RESType.AnimationIMN2,
+                RESType.AnimationMTM2,
+                RESType.Shading,
+                RESType.Properties,
+                RESType.MTNINF,
+                RESType.MTNINF2,
+                RESType.IMMINF,
+                RESType.MTMINF,
+                RESType.Textproj
+            };
+
+            Scene3DNodeItems.Clear();
+            foreach (var type in scene3DNodeTypes)
+            {
+                if (!_items.ContainsKey(type))
+                {
+                    _items[type] = new List<RESElement>();
+                }
+
+                Scene3DNodeItems.Add(new TypeListViewItem
+                {
+                    DisplayName = type.ToString(),
+                    Type = type,
+                    ElementCount = _items[type].Count
+                });
+            }
         }
 
         public void LoadFile(string filePath)
@@ -97,62 +239,68 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
             if (extension == ".xres")
             {
-                _resource = new XRES(File.ReadAllBytes(filePath));
+                var xres = new XRES(File.ReadAllBytes(filePath));
+                _items = xres.Items;
                 _isXRES = true;
             }
             else
             {
-                _resource = new RES(File.ReadAllBytes(filePath));
+                var res = new RES(File.ReadAllBytes(filePath));
+                _items = res.Items;
                 _isXRES = false;
             }
 
-            RefreshTypeList();
+            RefreshAllLists();
         }
 
-        private void RefreshTypeList()
+        private void RefreshAllLists()
         {
-            TypeListViewItems.Clear();
-
-            var items = _isXRES
-                ? (_resource as XRES)?.Items
-                : (_resource as RES)?.Items;
-
-            if (items == null)
-                return;
-
-            foreach (var kvp in items)
+            // Refresh Scene3D Material Items
+            foreach (var item in Scene3DMaterialItems)
             {
-                string displayName = kvp.Key.ToString();
-
-                // Special case for TextureData
-                if (kvp.Key == RESType.TextureData)
-                {
-                    displayName = _isXRES ? "TextureData (XRES)" : "TextureData (RES)";
-                }
-
-                TypeListViewItems.Add(new TypeListViewItem
-                {
-                    DisplayName = $"{displayName} - {kvp.Value.Count}",
-                    Type = kvp.Key,
-                    ElementCount = kvp.Value.Count
-                });
+                item.ElementCount = _items.ContainsKey(item.Type) ? _items[item.Type].Count : 0;
             }
+
+            // Refresh Scene3D Node Items
+            foreach (var item in Scene3DNodeItems)
+            {
+                item.ElementCount = _items.ContainsKey(item.Type) ? _items[item.Type].Count : 0;
+            }
+
+            // TODO: Refresh Scene2D items when implemented
+        }
+
+        private void ClearOtherSelections(string keepSelection)
+        {
+            if (keepSelection != "Scene3DMaterial")
+                _selectedScene3DMaterialItem = null;
+            if (keepSelection != "Scene3DNode")
+                _selectedScene3DNodeItem = null;
+            if (keepSelection != "Scene2DMaterial")
+                _selectedScene2DMaterialItem = null;
+            if (keepSelection != "Scene2DNode")
+                _selectedScene2DNodeItem = null;
+        }
+
+        private TypeListViewItem GetSelectedItem()
+        {
+            return _selectedScene3DMaterialItem
+                ?? _selectedScene3DNodeItem
+                ?? _selectedScene2DMaterialItem
+                ?? _selectedScene2DNodeItem;
         }
 
         private void UpdateElementsList()
         {
             Elements.Clear();
 
-            if (SelectedTypeListViewItem == null)
+            var selectedItem = GetSelectedItem();
+            if (selectedItem == null)
                 return;
 
-            var items = _isXRES
-                ? (_resource as XRES)?.Items
-                : (_resource as RES)?.Items;
-
-            if (items != null && items.ContainsKey(SelectedTypeListViewItem.Type))
+            if (_items != null && _items.ContainsKey(selectedItem.Type))
             {
-                foreach (var element in items[SelectedTypeListViewItem.Type])
+                foreach (var element in _items[selectedItem.Type])
                 {
                     Elements.Add(element);
                 }
@@ -161,49 +309,38 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
         private void AddElement(object parameter)
         {
-            if (SelectedTypeListViewItem == null)
+            var selectedItem = GetSelectedItem();
+            if (selectedItem == null || _items == null)
                 return;
 
-            var items = _isXRES
-                ? (_resource as XRES)?.Items
-                : (_resource as RES)?.Items;
+            RESElement newElement = CreateNewElement(selectedItem.Type);
 
-            if (items == null)
-                return;
-
-            // Create new element based on type
-            RESElement newElement = CreateNewElement(SelectedTypeListViewItem.Type);
-
-            if (!items.ContainsKey(SelectedTypeListViewItem.Type))
+            if (!_items.ContainsKey(selectedItem.Type))
             {
-                items[SelectedTypeListViewItem.Type] = new System.Collections.Generic.List<RESElement>();
+                _items[selectedItem.Type] = new List<RESElement>();
             }
 
-            items[SelectedTypeListViewItem.Type].Add(newElement);
+            _items[selectedItem.Type].Add(newElement);
             Elements.Add(newElement);
 
-            // Update count
-            SelectedTypeListViewItem.ElementCount++;
-            SelectedTypeListViewItem.DisplayName = $"{SelectedTypeListViewItem.Type.ToString()} - {SelectedTypeListViewItem.ElementCount}";
+            selectedItem.ElementCount++;
         }
 
         private void DeleteElement(object parameter)
         {
-            if (SelectedElement == null || SelectedTypeListViewItem == null)
+            if (SelectedElement == null)
                 return;
 
-            var items = _isXRES
-                ? (_resource as XRES)?.Items
-                : (_resource as RES)?.Items;
+            var selectedItem = GetSelectedItem();
+            if (selectedItem == null || _items == null)
+                return;
 
-            if (items != null && items.ContainsKey(SelectedTypeListViewItem.Type))
+            if (_items.ContainsKey(selectedItem.Type))
             {
-                items[SelectedTypeListViewItem.Type].Remove(SelectedElement);
+                _items[selectedItem.Type].Remove(SelectedElement);
                 Elements.Remove(SelectedElement);
 
-                // Update count
-                SelectedTypeListViewItem.ElementCount--;
-                SelectedTypeListViewItem.DisplayName = $"{SelectedTypeListViewItem.Type} - {SelectedTypeListViewItem.ElementCount}";
+                selectedItem.ElementCount--;
             }
         }
 
@@ -214,17 +351,11 @@ namespace Level5ResourceEditor.ViewModels.Editor
                 case RESType.TextureData:
                     if (_isXRES)
                     {
-                        return new XRESTextureData
-                        {
-                            Name = "NewTexture"
-                        };
+                        return new XRESTextureData { Name = "NewTexture" };
                     }
                     else
                     {
-                        return new RESTextureData
-                        {
-                            Name = "NewTexture"
-                        };
+                        return new RESTextureData { Name = "NewTexture" };
                     }
 
                 case RESType.MaterialData:
