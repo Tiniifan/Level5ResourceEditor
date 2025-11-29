@@ -72,6 +72,15 @@
     <Compile Include="Services\TranslationService.cs" />
     <Compile Include="ViewModels\Editor\Level5ResourceViewModel.cs" />
     <Compile Include="ViewModels\ListView\ListViewItemViewModel.cs" />
+    <Compile Include="Views\DataGrids\ElementsDataGridView.xaml.cs">
+      <DependentUpon>ElementsDataGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataGrids\MaterialItemsDataGridView.xaml.cs">
+      <DependentUpon>MaterialItemsDataGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataGrids\NodeItemsDataGridView.xaml.cs">
+      <DependentUpon>NodeItemsDataGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Editor\Level5ResourceMainContent.xaml.cs">
       <DependentUpon>Level5ResourceMainContent.xaml</DependentUpon>
     </Compile>
@@ -116,6 +125,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\DataGrids\ElementsDataGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataGrids\MaterialItemsDataGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataGrids\NodeItemsDataGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Editor\Level5ResourceMainContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

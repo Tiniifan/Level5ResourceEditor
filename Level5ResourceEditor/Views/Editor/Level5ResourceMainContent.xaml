@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:panels="clr-namespace:Level5ResourceEditor.Views.Panels"
+             xmlns:dataGrids="clr-namespace:Level5ResourceEditor.Views.DataGrids"
              xmlns:scene3d="clr-namespace:StudioElevenLib.Level5.Resource.Types.Scene3D;assembly=StudioElevenLib"
              xmlns:types="clr-namespace:StudioElevenLib.Level5.Resource.Types;assembly=StudioElevenLib"
              mc:Ignorable="d" 
@@ -68,74 +69,12 @@
 
                                 <!-- Material Items DataGrid -->
                                 <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-
-                                        <TextBlock Grid.Row="0" 
-                                                  Text="Material Items" 
-                                                  Style="{StaticResource ImaginationLabel}"
-                                                  Margin="10,5"/>
-
-                                        <DataGrid Grid.Row="1"
-                                                 ItemsSource="{Binding Scene3DMaterialItems}"
-                                                 SelectedItem="{Binding SelectedScene3DMaterialItem, Mode=TwoWay}"
-                                                 Style="{StaticResource ImaginationDataGrid}"
-                                                 ColumnHeaderStyle="{StaticResource ImaginationDataGridColumnHeader}"
-                                                 RowStyle="{StaticResource ImaginationDataGridRow}"
-                                                 CellStyle="{StaticResource ImaginationDataGridCell}"
-                                                 AutoGenerateColumns="False"
-                                                 CanUserAddRows="False"
-                                                 CanUserDeleteRows="False"
-                                                 IsReadOnly="True">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Type" 
-                                                                   Width="3*" 
-                                                                   Binding="{Binding DisplayName}"/>
-                                                <DataGridTextColumn Header="Count" 
-                                                                   Width="*" 
-                                                                   Binding="{Binding DisplayCount}"/>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-                                    </Grid>
+                                    <dataGrids:MaterialItemsDataGridView DataContext="{Binding}"/>
                                 </Border>
 
                                 <!-- Node Items DataGrid -->
                                 <Border Grid.Row="1" Style="{StaticResource PanelBorderStyle}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-
-                                        <TextBlock Grid.Row="0" 
-                                                  Text="Node Items" 
-                                                  Style="{StaticResource ImaginationLabel}"
-                                                  Margin="10,5"/>
-
-                                        <DataGrid Grid.Row="1"
-                                                 ItemsSource="{Binding Scene3DNodeItems}"
-                                                 SelectedItem="{Binding SelectedScene3DNodeItem, Mode=TwoWay}"
-                                                 Style="{StaticResource ImaginationDataGrid}"
-                                                 ColumnHeaderStyle="{StaticResource ImaginationDataGridColumnHeader}"
-                                                 RowStyle="{StaticResource ImaginationDataGridRow}"
-                                                 CellStyle="{StaticResource ImaginationDataGridCell}"
-                                                 AutoGenerateColumns="False"
-                                                 CanUserAddRows="False"
-                                                 CanUserDeleteRows="False"
-                                                 IsReadOnly="True">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Type" 
-                                                                   Width="3*" 
-                                                                   Binding="{Binding DisplayName}"/>
-                                                <DataGridTextColumn Header="Count" 
-                                                                   Width="*" 
-                                                                   Binding="{Binding DisplayCount}"/>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-                                    </Grid>
+                                    <dataGrids:NodeItemsDataGridView DataContext="{Binding}"/>
                                 </Border>
                             </Grid>
 
@@ -154,28 +93,7 @@
 
                 <!-- Center Panel: Elements DataGrid -->
                 <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}">
-                    <DataGrid ItemsSource="{Binding Elements}"
-                             SelectedItem="{Binding SelectedElement, Mode=TwoWay}"
-                             Style="{StaticResource ImaginationDataGrid}"
-                             ColumnHeaderStyle="{StaticResource ImaginationDataGridColumnHeader}"
-                             RowStyle="{StaticResource ImaginationDataGridRow}"
-                             CellStyle="{StaticResource ImaginationDataGridCell}"
-                             AutoGenerateColumns="False"
-                             CanUserAddRows="True"
-                             CanUserDeleteRows="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name"
-                                               Width="*"
-                                               Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="Margin" Value="10,0,10,0"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <dataGrids:ElementsDataGridView DataContext="{Binding}"/>
                 </Border>
 
                 <GridSplitter Grid.Column="3" Style="{StaticResource ImaginationGridSplitter}"/>

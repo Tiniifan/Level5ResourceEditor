@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Level5ResourceEditor.Views.DataGrids.ElementsDataGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="500">
+    <DataGrid ItemsSource="{Binding Elements}"
+             SelectedItem="{Binding SelectedElement, Mode=TwoWay}"
+             Style="{StaticResource ImaginationDataGrid}"
+             ColumnHeaderStyle="{StaticResource ImaginationDataGridColumnHeader}"
+             RowStyle="{StaticResource ImaginationDataGridRow}"
+             CellStyle="{StaticResource ImaginationDataGridCell}"
+             AutoGenerateColumns="False"
+             CanUserAddRows="True"
+             CanUserDeleteRows="True">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Name"
+                               Width="*"
+                               Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="10,0,10,0"/>
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

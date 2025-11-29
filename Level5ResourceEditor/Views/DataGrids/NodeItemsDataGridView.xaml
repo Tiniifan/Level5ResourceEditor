@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Level5ResourceEditor.Views.DataGrids.NodeItemsDataGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                  Text="Node Items" 
+                  Style="{StaticResource ImaginationLabel}"
+                  Margin="10,5"/>
+
+        <DataGrid Grid.Row="1"
+                 ItemsSource="{Binding Scene3DNodeItems}"
+                 SelectedItem="{Binding SelectedScene3DNodeItem, Mode=TwoWay}"
+                 Style="{StaticResource ImaginationDataGrid}"
+                 ColumnHeaderStyle="{StaticResource ImaginationDataGridColumnHeader}"
+                 RowStyle="{StaticResource ImaginationDataGridRow}"
+                 CellStyle="{StaticResource ImaginationDataGridCell}"
+                 AutoGenerateColumns="False"
+                 CanUserAddRows="False"
+                 CanUserDeleteRows="False"
+                 IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" 
+                                   Width="3*" 
+                                   Binding="{Binding DisplayName}"/>
+                <DataGridTextColumn Header="Count" 
+                                   Width="*" 
+                                   Binding="{Binding DisplayCount}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
