@@ -36,5 +36,10 @@ namespace Level5ResourceEditor.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+            return DisplayName;
+        }
     }
 }

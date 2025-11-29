@@ -184,7 +184,7 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
             // Update count
             SelectedTypeListViewItem.ElementCount++;
-            SelectedTypeListViewItem.DisplayName = $"{SelectedTypeListViewItem.Type} - {SelectedTypeListViewItem.ElementCount}";
+            SelectedTypeListViewItem.DisplayName = $"{SelectedTypeListViewItem.Type.ToString()} - {SelectedTypeListViewItem.ElementCount}";
         }
 
         private void DeleteElement(object parameter)
