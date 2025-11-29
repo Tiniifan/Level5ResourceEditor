@@ -60,7 +60,7 @@ This project is built using:
 
 ## Installation
 
-1. Download the latest release from the [Releases](https://github.com/yourusername/Level5ResourceEditor/releases) page
+1. Download the latest release from the [Releases](https://github.com/Tiniifan/Level5ResourceEditor/releases) page
 2. Extract the archive
 3. Run `Level5ResourceEditor.exe`
 
