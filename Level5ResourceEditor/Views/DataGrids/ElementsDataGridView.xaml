@@ -13,7 +13,8 @@
              CellStyle="{StaticResource ImaginationDataGridCell}"
              AutoGenerateColumns="False"
              CanUserAddRows="True"
-             CanUserDeleteRows="True">
+             CanUserDeleteRows="True"
+              AddingNewItem="DataGrid_AddingNewItem">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Name"
                                Width="*"

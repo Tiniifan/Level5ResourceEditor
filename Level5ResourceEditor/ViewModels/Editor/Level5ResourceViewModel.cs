@@ -37,6 +37,8 @@ namespace Level5ResourceEditor.ViewModels.Editor
         private RESElement _selectedElement;
         private Dictionary<RESType, List<RESElement>> _items;
 
+        private bool _isInternalUpdate = false;
+
         public ObservableCollection<TypeListViewItem> Scene3DMaterialItems
         {
             get => _scene3DMaterialItems;
@@ -130,7 +132,14 @@ namespace Level5ResourceEditor.ViewModels.Editor
             get => _elements;
             set
             {
+                if (_elements != null)
+                    _elements.CollectionChanged -= OnElementsCollectionChanged;
+
                 _elements = value;
+
+                if (_elements != null)
+                    _elements.CollectionChanged += OnElementsCollectionChanged;
+
                 OnPropertyChanged(nameof(Elements));
             }
         }
@@ -150,6 +159,9 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
         public Level5ResourceViewModel()
         {
+            _elements = new ObservableCollection<RESElement>();
+            _elements.CollectionChanged += OnElementsCollectionChanged;
+
             Scene3DMaterialItems = new ObservableCollection<TypeListViewItem>();
             Scene3DNodeItems = new ObservableCollection<TypeListViewItem>();
             Scene2DMaterialItems = new ObservableCollection<TypeListViewItem>();
@@ -174,11 +186,11 @@ namespace Level5ResourceEditor.ViewModels.Editor
             // Scene3D Material Types
             var scene3DMaterialTypes = new[]
             {
-                (RESType.Material1, null, "Material1"),
-                (RESType.Material2, null, "Material2"),
-                (RESType.TextureData, typeof(RESTextureData), "TextureData (RES)"),
-                (RESType.TextureData, typeof(XRESTextureData), "TextureData (XRES)"),
-                (RESType.MaterialData, null, "MaterialData")
+                (RESType.Material1, typeof(RESMaterial1), "Material 1"),
+                (RESType.Material2, typeof(RESMaterial2), "Material 2"),
+                (RESType.TextureData, typeof(RESTextureData), "Texture Data (RES)"),
+                (RESType.TextureData, typeof(XRESTextureData), "Texture Data (XRES)"),
+                (RESType.MaterialData, typeof(ResMaterialData), "Material Data")
             };
 
             Scene3DMaterialItems.Clear();
@@ -198,45 +210,33 @@ namespace Level5ResourceEditor.ViewModels.Editor
             // Scene3D Node Types
             var scene3DNodeTypes = new[]
             {
-                RESType.MeshName,
-                RESType.Bone,
-                RESType.AnimationMTN2,
-                RESType.AnimationMTN3,
-                RESType.AnimationIMN2,
-                RESType.AnimationMTM2,
-                RESType.Shading,
-                RESType.Properties,
-                RESType.MTNINF,
-                RESType.MTNINF2,
-                RESType.IMMINF,
-                RESType.MTMINF,
-                RESType.Textproj
+                (RESType.MeshName, typeof(RESMesh), "Mesh"),
+                (RESType.Bone, typeof(RESBone), "Bone"),
+                (RESType.AnimationMTN2, typeof(RESAnimationMTN2), "MTN2"),
+                (RESType.AnimationMTN3, typeof(RESAnimationMTN3), "MTN3"),
+                (RESType.AnimationIMN2, typeof(RESAnimationIMN2), "IMN2"),
+                (RESType.AnimationMTM2, typeof(RESAnimationMTM2), "MTM2"),
+                (RESType.Shading, typeof(RESShading), "Shading"),
+                (RESType.Properties, typeof(RESProperty), "Property"),
+                (RESType.MTNINF, typeof(RESAnimationMTNINF), "MTNINF"),
+                (RESType.MTNINF2, typeof(RESAnimationMTNINF2), "MTNINF2"),
+                (RESType.IMMINF, typeof(RESAnimationIMMINF), "IMMINF"),
+                (RESType.MTMINF, typeof(RESAnimationMTNINF), "MTMINF"),
+                (RESType.Textproj, typeof(RESTextproj), "Textproj")
             };
 
             Scene3DNodeItems.Clear();
-            foreach (var type in scene3DNodeTypes)
+            foreach (var (type, filterType, displayName) in scene3DNodeTypes)
             {
-                if (!_items.ContainsKey(type))
-                {
-                    _items[type] = new List<RESElement>();
-                }
+                var key = $"{type}_{filterType?.Name ?? "default"}";
 
                 Scene3DNodeItems.Add(new TypeListViewItem
                 {
-                    DisplayName = type.ToString(),
+                    DisplayName = displayName,
                     Type = type,
-                    FilterType = null,
-                    ElementCount = _items[type].Count
+                    FilterType = filterType,
+                    ElementCount = 0
                 });
-            }
-
-            // Initialize other standard types
-            foreach (var type in scene3DMaterialTypes.Where(t => t.Item2 == null).Select(t => t.Item1).Distinct())
-            {
-                if (!_items.ContainsKey(type))
-                {
-                    _items[type] = new List<RESElement>();
-                }
             }
         }
 
@@ -304,69 +304,59 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
         private void UpdateElementsList()
         {
-            Elements.Clear();
+            // We are reporting that we are performing an internal update
+            _isInternalUpdate = true;
 
-            var selectedItem = GetSelectedItem();
-            if (selectedItem == null)
-                return;
-
-            if (_items != null && _items.ContainsKey(selectedItem.Type))
+            try
             {
-                IEnumerable<RESElement> elementsToShow;
+                Elements.Clear();
 
-                if (selectedItem.FilterType != null)
-                {
-                    // Filter by specific type (RESTextureData or XRESTextureData)
-                    elementsToShow = _items[selectedItem.Type]
-                        .Where(e => e.GetType() == selectedItem.FilterType);
-                }
-                else
-                {
-                    elementsToShow = _items[selectedItem.Type];
-                }
+                var selectedItem = GetSelectedItem();
+                if (selectedItem == null) return;
 
-                foreach (var element in elementsToShow)
+                if (_items != null && _items.ContainsKey(selectedItem.Type))
                 {
-                    Elements.Add(element);
+                    IEnumerable<RESElement> elementsToShow;
+
+                    if (selectedItem.FilterType != null)
+                    {
+                        elementsToShow = _items[selectedItem.Type]
+                            .Where(e => e.GetType() == selectedItem.FilterType);
+                    }
+                    else
+                    {
+                        elementsToShow = _items[selectedItem.Type];
+                    }
+
+                    foreach (var element in elementsToShow)
+                    {
+                        Elements.Add(element);
+                    }
                 }
+            }
+            finally
+            {
+                // We disable the flag no matter what happens.
+                _isInternalUpdate = false;
             }
         }
 
         private void AddElement(object parameter)
         {
             var selectedItem = GetSelectedItem();
-            if (selectedItem == null || _items == null)
-                return;
+            if (selectedItem == null) return;
 
+            // Create the element with the correct type
             RESElement newElement = CreateNewElement(selectedItem.Type, selectedItem.FilterType);
 
-            if (!_items.ContainsKey(selectedItem.Type))
-            {
-                _items[selectedItem.Type] = new List<RESElement>();
-            }
-
-            _items[selectedItem.Type].Add(newElement);
             Elements.Add(newElement);
-
-            RefreshAllLists();
         }
 
         private void DeleteElement(object parameter)
         {
-            if (SelectedElement == null)
-                return;
+            if (SelectedElement == null) return;
 
-            var selectedItem = GetSelectedItem();
-            if (selectedItem == null || _items == null)
-                return;
-
-            if (_items.ContainsKey(selectedItem.Type))
-            {
-                _items[selectedItem.Type].Remove(SelectedElement);
-                Elements.Remove(SelectedElement);
-
-                RefreshAllLists();
-            }
+            Elements.Remove(SelectedElement);
         }
 
         private RESElement CreateNewElement(RESType type, Type filterType)
@@ -394,6 +384,62 @@ namespace Level5ResourceEditor.ViewModels.Editor
                 default:
                     return new RESElement { Name = $"New{type}" };
             }
+        }
+
+        private void OnElementsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (_isInternalUpdate) return;
+
+            var selectedItem = GetSelectedItem();
+            if (selectedItem == null || _items == null) return;
+
+            if (!_items.ContainsKey(selectedItem.Type))
+            {
+                _items[selectedItem.Type] = new List<RESElement>();
+            }
+
+            var list = _items[selectedItem.Type];
+
+            // Manage additions (via DataGrid or command)
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add && e.NewItems != null)
+            {
+                foreach (RESElement item in e.NewItems)
+                {
+                    if (!list.Contains(item))
+                    {
+                        list.Add(item);
+                    }
+                }
+            }
+
+            // Manage deletions
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove && e.OldItems != null)
+            {
+                foreach (RESElement item in e.OldItems)
+                {
+                    if (list.Contains(item))
+                    {
+                        list.Remove(item);
+                    }
+                }
+            }
+
+            // Manage Reset
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+            {
+                // Todo?
+            }
+
+            RefreshAllLists();
+        }
+
+        public RESElement CreateItemForCurrentContext()
+        {
+            var selectedItem = GetSelectedItem();
+
+            if (selectedItem == null) return new RESElement();
+
+            return CreateNewElement(selectedItem.Type, selectedItem.FilterType);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
