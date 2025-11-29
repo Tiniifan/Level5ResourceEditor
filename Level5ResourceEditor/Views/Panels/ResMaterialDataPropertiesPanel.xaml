@@ -7,54 +7,242 @@
              d:DesignHeight="450" d:DesignWidth="300">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="10">
-            <TextBlock Text="Name" 
-                      Style="{StaticResource ImaginationLabel}"
-                      Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ImaginationTextBox}"
-                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Margin="0,0,0,15"/>
 
-            <TextBlock Text="Material Data Name 1" 
-                      Style="{StaticResource ImaginationLabel}"
-                      Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ImaginationTextBox}"
-                    Text="{Binding MaterialDataName1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Margin="0,0,0,15"/>
+            <!-- Section: General Information -->
+            <GroupBox Header="Informations générales" 
+                      Style="{StaticResource ImaginationGroupBox}">
+                <StackPanel>
+                    <TextBlock Text="Name" 
+                              Style="{StaticResource ImaginationLabel}"
+                              Margin="0,0,0,5"/>
+                    <TextBox Style="{StaticResource ImaginationTextBox}"
+                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Margin="0,0,0,15"/>
 
-            <TextBlock Text="Material Data Name 2" 
-                      Style="{StaticResource ImaginationLabel}"
-                      Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ImaginationTextBox}"
-                    Text="{Binding MaterialDataName2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Margin="0,0,0,15"/>
+                    <TextBlock Text="Material Data Name 1" 
+                              Style="{StaticResource ImaginationLabel}"
+                              Margin="0,0,0,5"/>
+                    <TextBox Style="{StaticResource ImaginationTextBox}"
+                            Text="{Binding MaterialDataName1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Margin="0,0,0,15"/>
 
-            <TextBlock Text="Image 1" 
-                      Style="{StaticResource ImaginationLabel}"
-                      Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ImaginationTextBox}"
-                    Text="{Binding Images[0].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Margin="0,0,0,15"/>
+                    <TextBlock Text="Material Data Name 2" 
+                              Style="{StaticResource ImaginationLabel}"
+                              Margin="0,0,0,5"/>
+                    <TextBox Style="{StaticResource ImaginationTextBox}"
+                            Text="{Binding MaterialDataName2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Margin="0,0,0,15"/>
+                </StackPanel>
+            </GroupBox>
 
-            <TextBlock Text="Image 2" 
-                      Style="{StaticResource ImaginationLabel}"
-                      Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ImaginationTextBox}"
-                    Text="{Binding Images[1].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Margin="0,0,0,15"/>
+            <!-- Section: Image 1 -->
+            <GroupBox Header="Image 1" 
+                      Style="{StaticResource ImaginationGroupBox}">
+                <StackPanel>
+                    <CheckBox Content="Enabled" 
+                             Style="{StaticResource ImaginationCheckbox}"
+                             IsChecked="{Binding Images[0].Enabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Margin="0,0,0,10"/>
 
-            <TextBlock Text="Image 3" 
-                      Style="{StaticResource ImaginationLabel}"
-                      Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ImaginationTextBox}"
-                    Text="{Binding Images[2].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Margin="0,0,0,15"/>
+                    <TextBlock Text="Name" 
+                              Style="{StaticResource ImaginationLabel}"
+                              Margin="0,0,0,5"/>
+                    <TextBox Style="{StaticResource ImaginationTextBox}"
+                            Text="{Binding Images[0].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Margin="0,0,0,10"/>
 
-            <TextBlock Text="Image 4" 
-                      Style="{StaticResource ImaginationLabel}"
-                      Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ImaginationTextBox}"
-                    Text="{Binding Images[3].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Margin="0,0,0,15"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk1"
+                            Text="{Binding Images[0].Unk1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk2"
+                            Text="{Binding Images[0].Unk2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk3"
+                            Text="{Binding Images[0].Unk3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk4"
+                            Text="{Binding Images[0].Unk4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk5"
+                            Text="{Binding Images[0].Unk5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk6"
+                            Text="{Binding Images[0].Unk6, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk7"
+                            Text="{Binding Images[0].Unk7, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk8"
+                            Text="{Binding Images[0].Unk8, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk9"
+                            Text="{Binding Images[0].Unk9, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk10"
+                            Text="{Binding Images[0].Unk10, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk11"
+                            Text="{Binding Images[0].Unk11, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Section: Image 2 -->
+            <GroupBox Header="Image 2" 
+                      Style="{StaticResource ImaginationGroupBox}">
+                <StackPanel>
+                    <CheckBox Content="Enabled" 
+                             Style="{StaticResource ImaginationCheckbox}"
+                             IsChecked="{Binding Images[1].Enabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Name" 
+                              Style="{StaticResource ImaginationLabel}"
+                              Margin="0,0,0,5"/>
+                    <TextBox Style="{StaticResource ImaginationTextBox}"
+                            Text="{Binding Images[1].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Margin="0,0,0,10"/>
+
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk1"
+                            Text="{Binding Images[1].Unk1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk2"
+                            Text="{Binding Images[1].Unk2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk3"
+                            Text="{Binding Images[1].Unk3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk4"
+                            Text="{Binding Images[1].Unk4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk5"
+                            Text="{Binding Images[1].Unk5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk6"
+                            Text="{Binding Images[1].Unk6, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk7"
+                            Text="{Binding Images[1].Unk7, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk8"
+                            Text="{Binding Images[1].Unk8, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk9"
+                            Text="{Binding Images[1].Unk9, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk10"
+                            Text="{Binding Images[1].Unk10, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk11"
+                            Text="{Binding Images[1].Unk11, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Section: Image 3 -->
+            <GroupBox Header="Image 3" 
+                      Style="{StaticResource ImaginationGroupBox}">
+                <StackPanel>
+                    <CheckBox Content="Enabled" 
+                             Style="{StaticResource ImaginationCheckbox}"
+                             IsChecked="{Binding Images[2].Enabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Name" 
+                              Style="{StaticResource ImaginationLabel}"
+                              Margin="0,0,0,5"/>
+                    <TextBox Style="{StaticResource ImaginationTextBox}"
+                            Text="{Binding Images[2].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Margin="0,0,0,10"/>
+
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk1"
+                            Text="{Binding Images[2].Unk1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk2"
+                            Text="{Binding Images[2].Unk2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk3"
+                            Text="{Binding Images[2].Unk3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk4"
+                            Text="{Binding Images[2].Unk4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk5"
+                            Text="{Binding Images[2].Unk5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk6"
+                            Text="{Binding Images[2].Unk6, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk7"
+                            Text="{Binding Images[2].Unk7, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk8"
+                            Text="{Binding Images[2].Unk8, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk9"
+                            Text="{Binding Images[2].Unk9, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk10"
+                            Text="{Binding Images[2].Unk10, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk11"
+                            Text="{Binding Images[2].Unk11, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Section: Image 4 -->
+            <GroupBox Header="Image 4" 
+                      Style="{StaticResource ImaginationGroupBox}">
+                <StackPanel>
+                    <CheckBox Content="Enabled" 
+                             Style="{StaticResource ImaginationCheckbox}"
+                             IsChecked="{Binding Images[3].Enabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Name" 
+                              Style="{StaticResource ImaginationLabel}"
+                              Margin="0,0,0,5"/>
+                    <TextBox Style="{StaticResource ImaginationTextBox}"
+                            Text="{Binding Images[3].Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Margin="0,0,0,10"/>
+
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk1"
+                            Text="{Binding Images[3].Unk1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk2"
+                            Text="{Binding Images[3].Unk2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk3"
+                            Text="{Binding Images[3].Unk3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk4"
+                            Text="{Binding Images[3].Unk4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk5"
+                            Text="{Binding Images[3].Unk5, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk6"
+                            Text="{Binding Images[3].Unk6, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk7"
+                            Text="{Binding Images[3].Unk7, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk8"
+                            Text="{Binding Images[3].Unk8, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk9"
+                            Text="{Binding Images[3].Unk9, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk10"
+                            Text="{Binding Images[3].Unk10, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBox Style="{StaticResource ImaginationLabeledNumericTextBox}"
+                            Tag="Unk11"
+                            Text="{Binding Images[3].Unk11, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+            </GroupBox>
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>
