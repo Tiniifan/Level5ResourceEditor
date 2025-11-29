@@ -210,19 +210,19 @@ namespace Level5ResourceEditor.ViewModels.Editor
             // Scene3D Node Types
             var scene3DNodeTypes = new[]
             {
-                (RESType.MeshName, typeof(RESMesh), "Mesh"),
-                (RESType.Bone, typeof(RESBone), "Bone"),
-                (RESType.AnimationMTN2, typeof(RESAnimationMTN2), "MTN2"),
-                (RESType.AnimationMTN3, typeof(RESAnimationMTN3), "MTN3"),
-                (RESType.AnimationIMN2, typeof(RESAnimationIMN2), "IMN2"),
-                (RESType.AnimationMTM2, typeof(RESAnimationMTM2), "MTM2"),
-                (RESType.Shading, typeof(RESShading), "Shading"),
+                (RESType.MeshName, null, "Mesh"),
+                (RESType.Bone, null, "Bone"),
+                (RESType.AnimationMTN2, null, "MTN2"),
+                (RESType.AnimationMTN3, null, "MTN3"),
+                (RESType.AnimationIMN2, null, "IMN2"),
+                (RESType.AnimationMTM2, null, "MTM2"),
+                (RESType.Shading, null, "Shading"),
                 (RESType.Properties, typeof(RESProperty), "Property"),
-                (RESType.MTNINF, typeof(RESAnimationMTNINF), "MTNINF"),
-                (RESType.MTNINF2, typeof(RESAnimationMTNINF2), "MTNINF2"),
-                (RESType.IMMINF, typeof(RESAnimationIMMINF), "IMMINF"),
-                (RESType.MTMINF, typeof(RESAnimationMTNINF), "MTMINF"),
-                (RESType.Textproj, typeof(RESTextproj), "Textproj")
+                (RESType.MTNINF, null, "MTNINF"),
+                (RESType.MTNINF2, null, "MTNINF2"),
+                (RESType.IMMINF, null, "IMMINF"),
+                (RESType.MTMINF, null, "MTMINF"),
+                (RESType.Textproj, null, "Textproj")
             };
 
             Scene3DNodeItems.Clear();
