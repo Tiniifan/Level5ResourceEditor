@@ -39,6 +39,9 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
         private bool _isInternalUpdate = false;
 
+        private string _currentResourceType = "RES";
+        private string _loadedFilePath;
+
         public ObservableCollection<TypeListViewItem> Scene3DMaterialItems
         {
             get => _scene3DMaterialItems;
@@ -154,6 +157,31 @@ namespace Level5ResourceEditor.ViewModels.Editor
             }
         }
 
+        public string CurrentResourceType
+        {
+            get => _currentResourceType;
+            set
+            {
+                _currentResourceType = value;
+                OnPropertyChanged(nameof(CurrentResourceType));
+            }
+        }
+
+        public string LoadedFilePath
+        {
+            get => _loadedFilePath;
+            set
+            {
+                _loadedFilePath = value;
+                OnPropertyChanged(nameof(LoadedFilePath));
+            }
+        }
+
+        public Dictionary<RESType, List<RESElement>> GetItems()
+        {
+            return _items;
+        }
+
         public ICommand AddElementCommand { get; private set; }
         public ICommand DeleteElementCommand { get; private set; }
 
@@ -243,7 +271,12 @@ namespace Level5ResourceEditor.ViewModels.Editor
 
         public void LoadFile(string filePath)
         {
+            LoadedFilePath = filePath;
+
             IResource resource = Resourcer.GetResource(File.ReadAllBytes(filePath));
+
+            // Detect resource type
+            CurrentResourceType = resource.Name;
 
             _items = resource.Items;
 
