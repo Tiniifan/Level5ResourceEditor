@@ -239,31 +239,31 @@ namespace Level5ResourceEditor.ViewModels.Editor
             // Scene3D Node Types
             var scene3DNodeTypes = new[]
             {
-                (RESType.MeshName, null, "Mesh"),
-                (RESType.Bone, null, "Bone"),
-                (RESType.AnimationMTN2, null, "MTN2"),
-                (RESType.AnimationMTN3, null, "MTN3"),
-                (RESType.AnimationIMN2, null, "IMN2"),
-                (RESType.AnimationMTM2, null, "MTM2"),
-                (RESType.Shading, null, "Shading"),
-                (RESType.Properties, typeof(RESProperty), "Property"),
-                (RESType.MTNINF, null, "MTNINF"),
-                (RESType.MTNINF2, null, "MTNINF2"),
-                (RESType.IMMINF, null, "IMMINF"),
-                (RESType.MTMINF, null, "MTMINF"),
-                (RESType.Textproj, null, "Textproj")
+                (RESType.MeshName, "Mesh"),
+                (RESType.Bone, "Bone"),
+                (RESType.AnimationMTN2, "MTN2"),
+                (RESType.AnimationMTN3, "MTN3"),
+                (RESType.AnimationIMN2, "IMN2"),
+                (RESType.AnimationMTM2, "MTM2"),
+                (RESType.Shading, "Shading"),
+                (RESType.Properties, "Property"),
+                (RESType.MTNINF,  "MTNINF"),
+                (RESType.MTNINF2,  "MTNINF2"),
+                (RESType.IMMINF, "IMMINF"),
+                (RESType.MTMINF,"MTMINF"),
+                (RESType.Textproj, "Textproj")
             };
 
             Scene3DNodeItems.Clear();
-            foreach (var (type, filterType, displayName) in scene3DNodeTypes)
+            foreach (var (type, displayName) in scene3DNodeTypes)
             {
-                var key = $"{type}_{filterType?.Name ?? "default"}";
+                var key = $"{type}_{typeof(RESElement)?.Name ?? "default"}";
 
                 Scene3DNodeItems.Add(new TypeListViewItem
                 {
                     DisplayName = displayName,
                     Type = type,
-                    FilterType = filterType,
+                    FilterType = null,
                     ElementCount = 0
                 });
             }
